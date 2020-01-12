@@ -28,6 +28,9 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.4.0"
 //add in XML library
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.1.1"
 
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+
 // Here, `libraryDependencies` is a set of dependencies, and by using `+=`,
 // we're adding the cats dependency to the set of dependencies that sbt will go
 // and fetch when it starts up.
