@@ -73,4 +73,11 @@ class DirectedGraphTest extends FlatSpec
 		
 		assert(graph.branchBoundTSP.isEmpty)
 	}
+
+	it should "have an empty tour (B&B w/ heuristic)" in
+	{
+		val graph = Graph[String](true)
+		
+		assert(graph.branchBoundTSP((g, s) => 0).isEmpty)
+	}
 }
