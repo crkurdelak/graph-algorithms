@@ -48,6 +48,8 @@ object graph
 
 		def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]]
 
+		def dynamicTSP:Seq[Edge[T]]
+
 		override def toString:String
 	}	
 
@@ -113,6 +115,8 @@ object graph
 			def greedyTSP():Seq[Edge[T]] = List()
 
 			def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]] = List()
+
+			def dynamicTSP:Seq[Edge[T]] = List()
 
 			override def toString:String = "Empty graph..."
 		}

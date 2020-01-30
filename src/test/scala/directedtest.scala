@@ -52,4 +52,11 @@ class DirectedGraphTest extends FlatSpec
 		
 		assert(graph.greedyTSP.isEmpty)
 	}
+
+	it should "have an empty tour (DYN)" in
+	{
+		val graph = Graph[String](true)
+		
+		assert(graph.dynamicTSP.isEmpty)
+	}
 }
