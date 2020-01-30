@@ -56,6 +56,8 @@ object graph
 		
 		def geneticTSP(initPop:Seq[Seq[T]], inversionProb:Float, maxIters:Int):Seq[Edge[T]]
 
+		def branchBoundTSP:Seq[Edge[T]]
+
 		override def toString:String
 	}	
 
@@ -130,6 +132,7 @@ object graph
 		
 			def geneticTSP(initPop:Seq[Seq[T]], inversionProb:Float, maxIters:Int):Seq[Edge[T]] = List()
 
+			def branchBoundTSP:Seq[Edge[T]] = List()
 
 			override def toString:String = "Empty graph..."
 		}

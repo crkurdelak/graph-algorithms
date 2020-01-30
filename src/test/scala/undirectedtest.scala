@@ -67,4 +67,11 @@ class UndirectedGraphTest extends FlatSpec
 		
 		assert(graph.geneticTSP.isEmpty)
 	}
+
+	it should "have an empty tour (B&B)" in
+	{
+		val graph = Graph[String](false)
+		
+		assert(graph.branchBoundTSP.isEmpty)
+	}
 }
