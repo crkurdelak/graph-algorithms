@@ -50,6 +50,12 @@ object graph
 
 		def dynamicTSP:Seq[Edge[T]]
 
+		def geneticTSP(popSize:Int, inversionProb:Float, maxIters:Int):Seq[Edge[T]]
+		
+		def geneticTSP:Seq[Edge[T]]
+		
+		def geneticTSP(initPop:Seq[Seq[T]], inversionProb:Float, maxIters:Int):Seq[Edge[T]]
+
 		override def toString:String
 	}	
 
@@ -117,6 +123,13 @@ object graph
 			def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]] = List()
 
 			def dynamicTSP:Seq[Edge[T]] = List()
+
+			def geneticTSP(popSize:Int, inversionProb:Float, maxIters:Int):Seq[Edge[T]] = List()
+		
+			def geneticTSP:Seq[Edge[T]] = List()
+		
+			def geneticTSP(initPop:Seq[Seq[T]], inversionProb:Float, maxIters:Int):Seq[Edge[T]] = List()
+
 
 			override def toString:String = "Empty graph..."
 		}
