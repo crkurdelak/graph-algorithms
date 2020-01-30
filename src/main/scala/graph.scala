@@ -30,8 +30,18 @@ object graph
 		@throws(classOf[IllegalArgumentException])
 		def removeEdge(source:T, destination:T):Graph[T]
 
+		@throws(classOf[IllegalArgumentException])
+		def getAdjacent(source:T):Iterable[T]
+
+		def pathLength(path:Seq[T]):Option[Long]
+
+		@throws(classOf[IllegalArgumentException])
+		def shortestPathBetween(source:T, destination:T):Option[Seq[Edge[T]]]
+
 		override def toString:String
 	}	
+
+	class Edge[T](val source:T, val destination:T, val weight:Int)
 
 	/**
 	Serves as a factory function for producing new empty Graphs
@@ -68,6 +78,17 @@ object graph
 			def addEdge(source:T, destination:T, weight:Int):Graph[T] = null
 
 			def removeEdge(source:T, destination:T):Graph[T] = null
+
+			@throws(classOf[IllegalArgumentException])
+			def getAdjacent(source:T):Iterable[T] = List()
+
+			def pathLength(path:Seq[T]):Option[Long] = None
+
+			@throws(classOf[IllegalArgumentException])
+			def shortestPathBetween(source:T, destination:T):Option[Seq[Edge[T]]] = None
+
+			@throws(classOf[IOException])
+			def fromCSVFile(isDirected:Boolean, fileName:String):Graph[String] = null
 
 			override def toString:String = "Empty graph..."
 		}
