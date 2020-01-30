@@ -38,10 +38,20 @@ object graph
 		@throws(classOf[IllegalArgumentException])
 		def shortestPathBetween(source:T, destination:T):Option[Seq[Edge[T]]]
 
+		def getEdge(source:T, destination:T):Option[Edge[T]]
+
+		def getEdges():Iterable[Edge[T]]
+
+		def minimumSpanningTree:Option[Graph[T]]
+
 		override def toString:String
 	}	
 
-	class Edge[T](val source:T, val destination:T, val weight:Int)
+	class Edge[T](val source:T, val destination:T, val weight:Int) extends Ordered[Edge[T]]
+	{
+		def compare(other:Edge[T]):Int = 0
+		override def toString:String = ""
+	}
 
 	/**
 	Serves as a factory function for producing new empty Graphs
@@ -89,6 +99,12 @@ object graph
 
 			@throws(classOf[IOException])
 			def fromCSVFile(isDirected:Boolean, fileName:String):Graph[String] = null
+
+			def getEdge(source:T, destination:T):Option[Edge[T]] = None
+
+			def getEdges():Iterable[Edge[T]] = List()
+
+			def minimumSpanningTree:Option[Graph[T]] = None
 
 			override def toString:String = "Empty graph..."
 		}
