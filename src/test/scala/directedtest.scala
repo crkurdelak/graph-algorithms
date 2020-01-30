@@ -41,8 +41,15 @@ class DirectedGraphTest extends FlatSpec
 
 	it should "not have a MST" in
 	{
-		val graph = Graph[String](false)
+		val graph = Graph[String](true)
 
 		assert(graph.minimumSpanningTree.isEmpty)
+	}
+
+	it should "have an empty tour" in
+	{
+		val graph = Graph[String](true)
+		
+		assert(graph.greedyTSP.isEmpty)
 	}
 }

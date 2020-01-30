@@ -44,6 +44,10 @@ object graph
 
 		def minimumSpanningTree:Option[Graph[T]]
 
+		def greedyTSP():Seq[Edge[T]]
+
+		def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]]
+
 		override def toString:String
 	}	
 
@@ -105,6 +109,10 @@ object graph
 			def getEdges():Iterable[Edge[T]] = List()
 
 			def minimumSpanningTree:Option[Graph[T]] = None
+
+			def greedyTSP():Seq[Edge[T]] = List()
+
+			def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]] = List()
 
 			override def toString:String = "Empty graph..."
 		}
