@@ -53,6 +53,7 @@ class DirectedGraphTest extends AnyFlatSpec
 		assert(graph.greedyTSP.isEmpty)
 	}
 
+	/*
 	it should "have an empty tour (DYN)" in
 	{
 		val graph = Graph[String](true)
@@ -80,4 +81,6 @@ class DirectedGraphTest extends AnyFlatSpec
 		
 		assert(graph.branchBoundTSP((g, s) => 0).isEmpty)
 	}
+
+	 */
 }

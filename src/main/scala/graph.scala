@@ -3,6 +3,9 @@ import java.util.Scanner
 import scala.collection.mutable
 import scala.util.control.Exception
 
+import scala.xml.XML.loadFile
+import scala.xml.Node
+
 object graph
 {
 	/*
@@ -47,6 +50,10 @@ object graph
 		def greedyTSP():Seq[Edge[T]]
 
 		def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]]
+
+		def branchBoundTSP:Seq[Edge[T]]
+
+		def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]]
 
 		def toString:String
 	}
@@ -589,8 +596,55 @@ object graph
 				prefix ++ mid.reverse ++ end
 			}
 
+			def branchBoundTSP:Seq[Edge[T]] = {
+				List()
+			}
 
-			/**
+
+			def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]] = {
+				List()
+			}
+
+
+			/*
+      Loads a graph from a TSP file
+      */
+			def fromTSPFile(fileName:String):Graph[Int] =
+			{
+				//create an empty graph
+				val emptyGraph = Graph[Int](false)
+
+				//load the XML file
+				val tspXML = loadFile(fileName)
+
+				//get all the veritices
+				val vertices = tspXML \\ "vertex"
+
+				//add in all the vertices
+				val graph = Range(0, vertices.size).foldLeft(emptyGraph)((g,v) => g.addVertex(v))
+
+				//add in all the edges - they are part of each xml vertex
+				vertices.zipWithIndex.foldLeft(graph)((g,t) => addXMLEdges(g, t._1, t._2))
+			}
+
+			/*
+      Add in edges assume the vertices exist
+      */
+			private def addXMLEdges(graph:Graph[Int], xmlEdges:Node, start:Int):Graph[Int] =
+			{
+				//parse all the edges - tuples of (destination, weight)
+				val edges = (xmlEdges \ "edge").map(e => (e.text.toInt, e.attributes("cost").text.toDouble.toInt))
+
+				//remove the edges that already exist
+				val newEdges = edges.filterNot(e => graph.edgeExists(start, e._1))
+
+				//add in new edges
+				newEdges.foldLeft(graph)((g,e) => g.addEdge(start, e._1, e._2))
+			}
+		}
+
+
+		/**
 			 * Returns a human-readable representation of this graph.
 			 *
 			 * @return a human-readable representation of this graph
