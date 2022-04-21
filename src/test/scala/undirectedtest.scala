@@ -1,10 +1,10 @@
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import graph.Graph
 
 /**
 Performs a series of tests on implementations of the graph
-*/
-class UndirectedGraphTest extends FlatSpec
+ */
+class UndirectedGraphTest extends AnyFlatSpec
 {
 
 	/**

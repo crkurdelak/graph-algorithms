@@ -3,10 +3,6 @@ import java.util.Scanner
 import scala.collection.mutable
 import scala.util.control.Exception
 
-import scala.xml.XML.loadFile
-import scala.xml.Node
-
-
 object graph
 {
 	/*
@@ -51,10 +47,6 @@ object graph
 		def greedyTSP():Seq[Edge[T]]
 
 		def greedyTSP(initialTour:Seq[T]):Seq[Edge[T]]
-
-		def branchBoundTSP:Seq[Edge[T]]
-
-		def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]]
 
 		def toString:String
 	}
@@ -329,8 +321,9 @@ object graph
 			 */
 			def pathLength(path:Seq[T]):Option[Long] = {
 				var output:Option[Long] = Some(0)
-				var currentLength: Long = 0
 				if (path.size > 1) {
+					var currentLength: Long = 0
+
 					for (pair <- path.sliding(2)) {
 						val start = pair.head
 						val end = pair.tail.head
@@ -508,6 +501,28 @@ object graph
 				}
 			}
 
+			/*
+			procedure 2OPT(Graph graph, Sequence tour)
+			best = tour
+			bestDist = pathLength(tour)
+			while there is still improvement do
+				for i = 0 : : : length(best) 􀀀 1 do
+					for j = i + 1 : : : length(best) do
+						newTour = 2OPT-Swap(best; i; j)
+						dist = pathLength(newTour)
+							if dist < bestDist then
+								best = newTour
+								bestDist = dist
+							end if
+					end for
+				end for
+			end while
+			return best
+			end procedure
+
+				Note: If you start/end at a particular node (depot), then you must remove this from the search as an eligible
+			candidate for swapping, as reversing the order will cause an invalid path.
+				*/
 
 			/**
 			 * Finds an approximate answer to the Traveling Salesperson Problem using the greedy algorithm
@@ -515,7 +530,7 @@ object graph
 			 * @return an approximate answer to the Traveling Salesperson Problem
 			 */
 			def greedyTSP():Seq[Edge[T]] = {
-				var vertices: Seq[T] = getVertices.toSeq
+				var vertices:Seq[T] = getVertices.toSeq
 				vertices = vertices :+ vertices.head
 				greedyTSP(vertices)
 			}
@@ -538,7 +553,6 @@ object graph
 						for (i <- Range(1, best.length - 1)) {
 							for (j <- Range(i + 1, best.length - 1)) {
 								var newTour = twoOptSwap(best, i, j)
-								println(newTour)
 								var dist = pathLength(newTour).get
 								if (dist < bestDist) {
 									best = newTour
@@ -572,75 +586,18 @@ object graph
 				var prefix:Seq[T] = tour.slice(0, i)
 				var mid:Seq[T] = tour.slice(i, k)
 				var end:Seq[T] = tour.slice(k, tour.length)
-				prefix ++ (mid.reverse ++ end)
+				prefix ++ mid.reverse ++ end
 			}
 
 
 			/**
-			 *
-			 * @return
-			 */
-			def branchBoundTSP:Seq[Edge[T]] = {
-				List()
-			}
-
-
-			/**
-			 *
-			 * @param heur
-			 * @return
-			 */
-			def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]] = {
-				List()
-			}
-
-
-			/*
-      Loads a graph from a TSP file
-      */
-			def fromTSPFile(fileName:String):Graph[Int] =
-			{
-				//create an empty graph
-				val emptyGraph = Graph[Int](false)
-
-				//load the XML file
-				val tspXML = loadFile(fileName)
-
-				//get all the veritices
-				val vertices = tspXML \\ "vertex"
-
-				//add in all the vertices
-				val graph = Range(0, vertices.size).foldLeft(emptyGraph)((g,v) => g.addVertex(v))
-
-				//add in all the edges - they are part of each xml vertex
-				vertices.zipWithIndex.foldLeft(graph)((g,t) => addXMLEdges(g, t._1, t._2))
-			}
-
-			/*
-      Add in edges assume the vertices exist
-      */
-			private def addXMLEdges(graph:Graph[Int], xmlEdges:Node, start:Int):Graph[Int] =
-			{
-				//parse all the edges - tuples of (destination, weight)
-				val edges = (xmlEdges \ "edge").map(e => (e.text.toInt, e.attributes("cost").text.toDouble.toInt))
-
-				//remove the edges that already exist
-				val newEdges = edges.filterNot(e => graph.edgeExists(start, e._1))
-
-				//add in new edges
-				newEdges.foldLeft(graph)((g,e) => g.addEdge(start, e._1, e._2))
-			}
-		}
-
-
-		/**
 			 * Returns a human-readable representation of this graph.
 			 *
 			 * @return a human-readable representation of this graph
 			 */
 			override def toString: String = _adjacencyMap.keys.mkString(";")
 
-
+		}
 	}
 
 
@@ -699,15 +656,8 @@ object graph
 
 	def main(args:Array[String])
 	{
-		/*
-		var graph_5:Graph[String] = Graph.fromCSVFile(false, "graph_5.csv")
-    println(graph_5)
-    println(graph_5.greedyTSP())
-
-		 */
-
-		var graph_10:Graph[String] = Graph.fromCSVFile(false, "graph_10_319.csv")
-		println(graph_10)
-		println(graph_10.greedyTSP())
+		var example_graph:Graph[String] = Graph.fromCSVFile(false, "graph_10_319.csv")
+		println(example_graph)
+		println(example_graph.greedyTSP())
 	}
 }
