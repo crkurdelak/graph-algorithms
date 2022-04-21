@@ -576,11 +576,20 @@ object graph
 			}
 
 
+			/**
+			 *
+			 * @return
+			 */
 			def branchBoundTSP:Seq[Edge[T]] = {
 				List()
 			}
 
 
+			/**
+			 *
+			 * @param heur
+			 * @return
+			 */
 			def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]] = {
 				List()
 			}
@@ -631,7 +640,7 @@ object graph
 			 */
 			override def toString: String = _adjacencyMap.keys.mkString(";")
 
-		}
+
 	}
 
 
