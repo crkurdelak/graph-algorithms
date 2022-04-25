@@ -608,7 +608,7 @@ object graph
 
 			def branchBoundTSP:Seq[Edge[T]] = {
         // TODO call other branchBoundTSP and give it a default heuristic fn
-				List()
+        branchBoundTSP(defaultHeur)
 			}
 
 
@@ -646,6 +646,11 @@ object graph
 
 				makeEdgeTour(best)
 			}
+
+
+      def defaultHeur(graph:Graph[T], tour:Seq[T]):Long = {
+        // TODO make heuristic fn
+      }
 
 
 			/*
