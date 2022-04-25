@@ -1,8 +1,8 @@
 import java.io.{File, IOException}
+import java.util
 import java.util.Scanner
 import scala.collection.mutable
 import scala.util.control.Exception
-
 import scala.xml.XML.loadFile
 import scala.xml.Node
 
@@ -569,17 +569,27 @@ object graph
 							}
 						}
 					}
-					var bestTour: Seq[Edge[T]] = Seq()
-					for (vertices <- best.sliding(2)) {
-						val newEdge = getEdge(vertices(0), vertices(1)).get
-						bestTour = bestTour :+ newEdge
-					}
-					bestTour
+					makeEdgeTour(best)
 				}
 				else {
 					Seq[Edge[T]]()
 				}
 			}
+
+
+      /**
+       * Makes a tour of edges from the given tour of vertices
+       * @param vertexTour
+       * @return
+       */
+      def makeEdgeTour(vertexTour:Seq[T]):Seq[Edge[T]] = {
+        var bestTour: Seq[Edge[T]] = Seq()
+        for (vertices <- vertexTour.sliding(2)) {
+        val newEdge = getEdge(vertices(0), vertices(1)).get
+        bestTour = bestTour :+ newEdge
+      }
+        bestTour
+      }
 
 
 			/**
@@ -597,12 +607,44 @@ object graph
 			}
 
 			def branchBoundTSP:Seq[Edge[T]] = {
+        // TODO call other branchBoundTSP and give it a default heuristic fn
 				List()
 			}
 
 
 			def branchBoundTSP(heur:(Graph[T], Seq[T]) => Long):Seq[Edge[T]] = {
-				List()
+        val depot:T = getVertices.head;
+        var stack:util.Stack[Seq[T]] = new util.Stack[Seq[T]]()
+        var best:Seq[T] = null;
+        var isFirstSolution:Boolean = true
+        stack.push(Seq(depot))
+        var minCost:Long = 0;
+
+        while (!stack.isEmpty) {
+          val current: Seq[T] = stack.pop()
+          if (isFirstSolution || (current.size == 1) || (pathLength(current).get + heur(this,
+            current) < minCost)) {
+            isFirstSolution = false
+            if (current.length == this.getVertices.size + 1) {
+              best = current
+              minCost = pathLength(current).get
+            }
+            else {
+              if (current.size < getVertices.size) {
+                for (vertex <- this.getVertices) {
+                  if (!current.contains(vertex)) {
+                    stack.push(current :+ vertex)
+                  }
+                }
+              }
+              else {
+                stack.push(current :+ depot)
+              }
+            }
+          }
+        }
+
+				makeEdgeTour(best)
 			}
 
 
@@ -641,16 +683,14 @@ object graph
 				//add in new edges
 				newEdges.foldLeft(graph)((g,e) => g.addEdge(start, e._1, e._2))
 			}
-		}
 
 
-		/**
-			 * Returns a human-readable representation of this graph.
-			 *
-			 * @return a human-readable representation of this graph
-			 */
-			override def toString: String = _adjacencyMap.keys.mkString(";")
-
+      /**
+       * Returns a human-readable representation of this graph.
+       *
+       * @return a human-readable representation of this graph
+       */
+      override def toString: String = _adjacencyMap.keys.mkString(";")
 		}
 	}
 
