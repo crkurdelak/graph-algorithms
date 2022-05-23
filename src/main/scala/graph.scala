@@ -623,7 +623,7 @@ object graph
         while (!stack.isEmpty) {
           val current: Seq[T] = stack.pop()
           if (isFirstSolution || (current.size == 1) || (pathLength(current).get + heur(this,
-            current) < minCost)) {
+            current) < minCost)) { // minCost is never getting updated
             isFirstSolution = false
             if (current.length == this.getVertices.size + 1) {
               best = current
@@ -772,7 +772,8 @@ object graph
 	def main(args:Array[String])
 	{
 		var example_graph:Graph[String] = Graph.fromCSVFile(false, "graph_10_319.csv")
-		println(example_graph)
+		//println(example_graph)
 		println(example_graph.greedyTSP())
+    println(example_graph.branchBoundTSP)
 	}
 }
