@@ -649,7 +649,23 @@ object graph
 
 
       def defaultHeur(graph:Graph[T], tour:Seq[T]):Long = {
-        // TODO make heuristic fn
+        // return cheapest edge weight * number of edges needed to finish the tour
+        // for connected graph, edges = vertices - 1
+        // need to go back to depot as well, so + 1
+        val numNeeded:Long = graph.getVertices.size - tour.size
+
+        val cheapestWeight:Long =  {
+          var minWeight:Long = graph.getEdgeWeight(tour.head, tour(1)).get
+          for (vertices <- tour.sliding(2)) {
+            val currentWeight:Long = graph.getEdgeWeight(vertices(0), vertices(1)).get
+            if (currentWeight < minWeight) {
+              minWeight = currentWeight
+            }
+          }
+          minWeight
+        }
+
+        cheapestWeight * numNeeded
       }
 
 
