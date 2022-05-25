@@ -607,7 +607,6 @@ object graph
 			}
 
 			def branchBoundTSP:Seq[Edge[T]] = {
-        // TODO call other branchBoundTSP and give it a default heuristic fn
         branchBoundTSP(defaultHeur)
 			}
 
@@ -623,7 +622,7 @@ object graph
         while (!stack.isEmpty) {
           val current: Seq[T] = stack.pop()
           if (isFirstSolution || (current.size == 1) || (pathLength(current).get + heur(this,
-            current) < minCost)) { // minCost is never getting updated
+            current) < minCost || minCost == 0)) {
             isFirstSolution = false
             if (current.length == this.getVertices.size + 1) {
               best = current
