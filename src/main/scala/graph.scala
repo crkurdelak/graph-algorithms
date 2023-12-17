@@ -508,28 +508,6 @@ object graph
 				}
 			}
 
-			/*
-			procedure 2OPT(Graph graph, Sequence tour)
-			best = tour
-			bestDist = pathLength(tour)
-			while there is still improvement do
-				for i = 0 : : : length(best) 􀀀 1 do
-					for j = i + 1 : : : length(best) do
-						newTour = 2OPT-Swap(best; i; j)
-						dist = pathLength(newTour)
-							if dist < bestDist then
-								best = newTour
-								bestDist = dist
-							end if
-					end for
-				end for
-			end while
-			return best
-			end procedure
-
-				Note: If you start/end at a particular node (depot), then you must remove this from the search as an eligible
-			candidate for swapping, as reversing the order will cause an invalid path.
-				*/
 
 			/**
 			 * Finds an approximate answer to the Traveling Salesperson Problem using the greedy algorithm
